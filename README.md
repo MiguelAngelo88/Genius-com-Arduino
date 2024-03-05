@@ -2,6 +2,10 @@
 
 Este projeto implementa um jogo de memória simples usando um Arduino. O jogo consiste em mostrar uma sequência de LEDs piscando em uma ordem específica, que o jogador precisa repetir pressionando os botões correspondentes.
 
+![image](https://github.com/MiguelAngelo88/Genius-com-Arduino/assets/104993355/ac4de5ab-4fbd-49b0-b718-fe3c18dcf769)
+
+
+
 **Materiais Necessários**
 
 • Arduino Uno (ou similar)
@@ -18,6 +22,9 @@ Este projeto implementa um jogo de memória simples usando um Arduino. O jogo co
 **Montagem do Circuito**
 
 Conecte os LEDs aos pinos 4, 5, 6 e 7 do Arduino, e os botões aos pinos 8, 9, 10 e 11. Certifique-se de usar resistores para limitar a corrente dos LEDs e configurar os botões com resistores pull-up.
+
+![image](https://github.com/MiguelAngelo88/Genius-com-Arduino/assets/104993355/a7369d16-520e-4286-98d7-16f227939162)
+
 
 **Funcionamento**
 
