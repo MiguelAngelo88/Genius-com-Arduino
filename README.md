@@ -2,6 +2,8 @@
 
 Este projeto implementa um jogo de memória simples usando um Arduino. O jogo consiste em mostrar uma sequência de LEDs piscando em uma ordem específica, que o jogador precisa repetir pressionando os botões correspondentes.
 
+Link do projeto no TinkerCad https://www.tinkercad.com/things/bEBh60mMptV-jogo-da-memoria-com-leds?sharecode=8tFFMYSzsOso707T8irfwYWFkkednaemF4nk5vCQG1M
+
 ![image](https://github.com/MiguelAngelo88/Genius-com-Arduino/assets/104993355/ac4de5ab-4fbd-49b0-b718-fe3c18dcf769)
 
 
