@@ -1,0 +1,113 @@
+// Definição dos pinos dos LEDs
+const int ledPins[] = {4,5,6,7};
+// Definição dos pinos dos botões
+const int buttonPins[] = {8, 9, 10, 11};
+
+
+// Array para armazenar a sequência gerada
+int sequence[15];
+// Array para armazenar a sequência do jogador
+int playerSequence[15]; 
+// Variável para armazenar o tamanho da sequência atual
+int sequenceSize = 0;
+
+
+void setup() {
+ 
+  for (int i = 0; i < 4; i++) {
+    pinMode(ledPins[i], OUTPUT);
+    pinMode(buttonPins[i], INPUT_PULLUP);
+  }
+  
+  // Inicializa o gerador de números aleatórios
+  randomSeed(analogRead(0));
+}
+
+void loop() {
+
+  delay(800);
+
+  // Gera uma nova sequência aleatória
+    generateSequence();
+    // Mostra a sequência para o jogador
+    showSequence();
+    // Aguarda o jogador repetir a sequência
+    if (checkSequence())
+    {
+        // Se o jogador acertar, aumenta o tamanho da sequência
+        sequenceSize = sequenceSize + 1;
+      
+        // Piscar o LED VERDE 3 vezes para indicar acerto
+        for (int i = 0; i < 3; i++) {
+          digitalWrite(7, HIGH);
+          delay(200);
+          digitalWrite(7, LOW);
+          delay(200);
+        }
+    }
+    else
+    {
+        // Se o jogador errar, reinicia o jogo
+        sequenceSize = 0;
+
+        // Piscar o LED VERMELHO 3 vezes para indicar erro
+        for (int i = 0; i < 3; i++) {
+          digitalWrite(4, HIGH);
+          delay(200);
+          digitalWrite(4, LOW);
+          delay(200);
+        } 
+    }
+}
+
+void generateSequence() {
+
+  // Adiciona um novo número aleatório ao final da sequência atual
+  sequence[sequenceSize] = random(0, 4);
+  
+}
+
+void showSequence() {
+
+  for (int i = 0; i <= sequenceSize; i++) {
+    digitalWrite(ledPins[sequence[i]], HIGH);
+    delay(500);
+    digitalWrite(ledPins[sequence[i]], LOW);
+    delay(300);
+  }
+}
+
+boolean checkSequence() {
+
+  for (int i = 0; i <= sequenceSize; i++) {
+    // Espera até algum botão ser pressionado
+    while (digitalRead(buttonPins[0]) == HIGH && digitalRead(buttonPins[1]) == HIGH && digitalRead(buttonPins[2]) == HIGH && digitalRead(buttonPins[3]) == HIGH);
+
+    //laço  que armazena o botão pressionado
+    for (int j = 0; j < 4; j++) {
+      if (digitalRead(buttonPins[j]) == LOW) {
+        playerSequence[i] = j;
+        break;
+      }
+    }
+
+    // Acende o LED correspondente à escolha do jogador
+    digitalWrite(ledPins[playerSequence[i]], HIGH);
+    delay(200); 
+    digitalWrite(ledPins[playerSequence[i]], LOW); // Apaga o LED correspondente
+
+    // Espera até o botão ser solto
+    while (digitalRead(buttonPins[playerSequence[i]]) == LOW);
+
+  }
+  
+  // Compara a sequência do jogador com a sequência gerada
+  for (int i = 0; i <= sequenceSize; i++) {
+    if (playerSequence[i] != sequence[i]) {
+      return false; // Se não corresponder, retorna falso (jogador errou)
+    }
+  }
+  return true; // Se o jogador pressionou os botões na sequência correta, retorna verdadeiro (jogador acertou)
+}
+
+
