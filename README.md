@@ -5,10 +5,15 @@ Este projeto implementa um jogo de memória simples usando um Arduino. O jogo co
 **Materiais Necessários**
 
 • Arduino Uno (ou similar)
+
 • 4 LEDs
+
 • 4 Resistores de 220 Ω
+
 • 4 pushbuttons
+
 • Cabos jumpers
+
 
 **Montagem do Circuito**
 
