@@ -1,3 +1,12 @@
+/* 
+MELHORIAS:
+1. Foi adicionado um temporizador de 10s utilizando a função millis(), desse modo o jogador tem até 10s para apertar
+algum botão. Caso contrário o jogo é reiniciado.
+2. Problemas de boucing dos botões foi corrigido usando um delay de 50ms.
+3. Agora, ao manter o botão pressionado, o respectivo LED permanecerá aceso até que o botão seja solto.
+*/
+
+
 // Definição dos pinos dos LEDs
 const int ledPins[] = {4,5,6,7};
 // Definição dos pinos dos botões
