@@ -35,4 +35,5 @@ Conecte os LEDs aos pinos 4, 5, 6 e 7 do Arduino, e os botões aos pinos 8, 9, 1
 3. Se o jogador acertar, a sequência é aumentada em um LED e o LED verde irá piscar 3 vezes para sinalizar o acerto.
 4. Se o jogador errar, a sequência é reiniciada e o LED vermelho irá piscar 3 vezes para sinalizar o erro.
 5. O jogador pode reiniciar o jogo a qualquer momento pressionando o botão de Reset do Arduino.
-6. O jogo continua até que o jogador erre a sequência.
+6. O jogador tem até 10 segundos para apertar algum botão, caso contrário o jogo é reiniciado.
+7. O jogo continua até que o jogador erre a sequência.
