@@ -1,0 +1,140 @@
+// Definição dos pinos dos LEDs
+const int ledPins[] = {4,5,6,7};
+// Definição dos pinos dos botões
+const int buttonPins[] = {8, 9, 10, 11};
+
+const int MAX_SEQUENCE_SIZE = 15;
+// Array para armazenar a sequência gerada
+int sequence[MAX_SEQUENCE_SIZE];
+// Array para armazenar a sequência do jogador
+int playerSequence[MAX_SEQUENCE_SIZE]; 
+// Variável para armazenar o tamanho da sequência atual
+int sequenceSize = 0;
+
+// tempo de debounce para os botões
+const int debounceTime = 50;
+
+void setup() {
+ 
+  for (int i = 0; i < 4; i++) {
+    pinMode(ledPins[i], OUTPUT);
+    pinMode(buttonPins[i], INPUT_PULLUP);
+  }
+  
+  // Inicializa o gerador de números aleatórios
+  randomSeed(analogRead(0));
+}
+
+void loop() {
+
+    delay(800);
+
+    // Gera uma nova sequência aleatória
+    generateSequence();
+
+    // Mostra a sequência para o jogador
+    showSequence();
+
+    // Aguarda o jogador repetir a sequência
+    if (checkSequence())
+    {
+      // Se o jogador acertar, aumenta o tamanho da sequência
+      sequenceSize = sequenceSize + 1;
+      
+      // Piscar o LED VERDE 3 vezes para indicar acerto
+      flashLED(ledPins[3], 3);
+
+    }
+    else
+    {
+      // Se o jogador errar, reinicia o jogo
+      sequenceSize = 0;
+
+      // Piscar o LED VERMELHO 3 vezes para indicar o erro
+      flashLED(ledPins[0], 3); 
+
+    }
+}
+
+void generateSequence() {
+
+  // Adiciona um novo número aleatório ao final da sequência atual
+  sequence[sequenceSize] = random(0, 4);
+  
+}
+
+void showSequence() {
+  for (int i = 0; i <= sequenceSize; i++) {
+    flashLED(ledPins[sequence[i]], 1);
+  }
+}
+
+boolean checkSequence() {
+
+  for (int i = 0; i <= sequenceSize; i++) {
+    
+    // Espera até algum botão ser pressionado
+    int buttonPressed = waitForButtonPress();
+
+    //se exceder o tempo limite retorna falso e o jogo é reiniciado
+    if(buttonPressed == -1){
+      return false;
+    }
+
+    //Armazena o botão pressionado
+    playerSequence[i] = buttonPressed;
+
+    // Acende o LED correspondente à escolha do jogador
+    digitalWrite(ledPins[buttonPressed], HIGH);
+
+    // Espera até o botão ser solto
+    waitForButtonRelease(buttonPressed);
+
+    // Apaga o LED correspondente à escolha do jogador
+    digitalWrite(ledPins[buttonPressed], LOW);
+    delay(200);
+
+    // Compara a sequência do jogador com a sequência gerada
+    if (playerSequence[i] != sequence[i]) {
+      return false; //se o jogador errou a sequência, retorna falso
+    }
+  } 
+    return true; // Se o jogador pressionou os botões na sequência correta, retorna verdadeiro  
+}
+
+// Aguarda até que um botão seja pressionado e retorna o índice do botão pressionado
+int waitForButtonPress() {
+
+  unsigned long startTime = millis(); // Captura o tempo inicial
+  while (true) {
+    for (int i = 0; i < 4; i++) {
+      // Verifica se o botão atual está pressionado
+      if (digitalRead(buttonPins[i]) == LOW) {
+        delay(debounceTime); 
+        if (digitalRead(buttonPins[i]) == LOW) {
+          return i; // Retorna o índice do botão pressionado
+        }
+      }else if(millis() - startTime >= 10000){
+        return -1; // Retorna -1 se o tempo limite foi atingido
+      }
+    } 
+  }
+}
+
+// Aguarda até que o botão especificado seja solto
+void waitForButtonRelease(int button) {
+  while (digitalRead(buttonPins[button]) == LOW) {
+    delay(debounceTime); 
+  }
+}
+
+// Faz um LED piscar o número especificado de vezes
+void flashLED(int pin, int times) {
+  
+  for (int i = 0; i < times; i++) {
+    digitalWrite(pin, HIGH); // Acende o LED
+    delay(300); 
+    digitalWrite(pin, LOW); // Apaga o LED
+    delay(300); 
+  }
+}
